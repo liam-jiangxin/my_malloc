@@ -6,4 +6,5 @@
 在Linux下安装g++并执行下列命令（以malloc2.cpp为例）：
 1. `g++ malloc2.cpp -o malloc2`
 2. `./malloc2`
+
 ![run](./run.jpg)
