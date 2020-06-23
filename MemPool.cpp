@@ -8,10 +8,10 @@ using namespace std;
 
 #ifdef MULTI_THREAD
 void MP_lock(MemoryPool * mp){
-    pthread_mutex_lock(mp->lock);
+    pthread_mutex_lock(&mp->lock);
 }
 void MP_unlock(MemoryPool * mp){
-    pthread_mutex_unlock(mp->lock);
+    pthread_mutex_unlock(&mp->lock);
 }
 #endif
 // #define MP_lock(lockobj)                    \

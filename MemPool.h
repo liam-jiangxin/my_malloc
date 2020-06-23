@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef MYMALLOC
+#define MYMALLOC
+#endif
+
 #ifdef MULTI_THREAD
 #include <pthread.h>
 #endif
