@@ -1,12 +1,12 @@
 # My malloc
 ## 源文件
-- `malloc1.cpp`: 用linux的内核函数sbrk()代替malloc()，不支持free()操作 - 李姜辛
-- `malloc2.cpp`: 在malloc1.cpp的基础上增加链表，维护申请过的内存空间，支持free()操作 - 李姜辛
-- 改进`malloc2.cpp`: 增加realloc()函数 - 蒲实
-- `base_test`: 测试malloc+realloc+free - 李姜辛
-- `MemPool.cpp` + `example.cpp`: 增加内存池功能，用完可自动扩展+测试 - 刘展宇
-- 改进`MemPool.cpp` + `multi_test.cpp`: 增加内存池的多线程安全+多线程测试 - 李姜辛
-- `Makefile` - 李姜辛
+- `malloc1.cpp`: 用linux的内核函数sbrk()代替malloc()，不支持free()操作
+- `malloc2.cpp`: 在malloc1.cpp的基础上增加链表，维护申请过的内存空间，支持free()操作
+- 改进`malloc2.cpp`: 增加realloc()函数 - **PS**
+- `base_test`: 测试malloc+realloc+free - **LJX**
+- `MemPool.cpp` + `example.cpp`: 增加内存池功能，用完可自动扩展+测试 - **LZY**
+- 改进`MemPool.cpp` + `multi_test.cpp`: 增加内存池的多线程安全+多线程测试 - **LJX**
+- `Makefile` - **LJX**
 
 ## 编译运行
 
