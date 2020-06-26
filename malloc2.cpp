@@ -1,18 +1,4 @@
-#include <bits/stdc++.h>
-#include <assert.h>
-#include <string.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-struct block_meta {
-  size_t size;
-  struct block_meta *next;
-  int free;
-  int magic; // debug
-};
-
-#define META_SIZE sizeof(struct block_meta)
-
+#include "malloc2.h"
 void *global_base = NULL;
 
 struct block_meta *find_free_block(struct block_meta **last, size_t size) { // TODO: optimize the finding strategy
@@ -96,7 +82,7 @@ void my_free(void *ptr) {
 void *realloc(void *ptr, size_t size) {
   if (!ptr) { 
     // NULL ptr. realloc should act like malloc.
-    return malloc(size);
+    return my_malloc(size);
   }
 
   struct block_meta* block_ptr = get_block_ptr(ptr);
@@ -108,22 +94,13 @@ void *realloc(void *ptr, size_t size) {
   // Need to really realloc. Malloc new space and free old space.
   // Then copy old data to new space.
   void *new_ptr;
-  new_ptr = malloc(size);
+  new_ptr = my_malloc(size);
   if (!new_ptr) {
     return NULL; // TODO: set errno on failure.
   }
   memcpy(new_ptr, ptr, block_ptr->size);
-  free(ptr);  
+  my_free(ptr);  
   return new_ptr;
 }
 
-int main(){
-    int *a;
-    a=(int*)my_malloc(1000);
-    for(int i=0;i<3;i++){
-       a[i]=i;
-       printf("a[%d]=%d\n",i,a[i]);
-   }
-   my_free(a);
-   printf("a[1]=%d\n",a[1]);
-}
+
