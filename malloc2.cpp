@@ -93,6 +93,30 @@ void my_free(void *ptr) {
   block_ptr->magic = 0x55555555;
 }
 
+void *realloc(void *ptr, size_t size) {
+  if (!ptr) { 
+    // NULL ptr. realloc should act like malloc.
+    return malloc(size);
+  }
+
+  struct block_meta* block_ptr = get_block_ptr(ptr);
+  if (block_ptr->size >= size) {
+    // We have enough space. Could free some once we implement split.
+    return ptr;
+  }
+
+  // Need to really realloc. Malloc new space and free old space.
+  // Then copy old data to new space.
+  void *new_ptr;
+  new_ptr = malloc(size);
+  if (!new_ptr) {
+    return NULL; // TODO: set errno on failure.
+  }
+  memcpy(new_ptr, ptr, block_ptr->size);
+  free(ptr);  
+  return new_ptr;
+}
+
 int main(){
     int *a;
     a=(int*)my_malloc(1000);
