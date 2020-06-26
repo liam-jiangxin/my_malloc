@@ -1,22 +1,31 @@
 # My malloc
 ## 源文件
-1. malloc1.cpp: 用linux的内核函数sbrk()代替malloc()，不支持free()操作
-2. malloc2.cpp: 在malloc1.cpp的基础上增加链表，维护申请过的内存空间，支持free()操作
-3. MemPool.cpp + example.cpp: 增加内存池功能，用完可自动扩展+测试 - lzy
-4. 改进MemPool.cpp + multi_test.cpp: : 加锁线程安全+多线程测试 - ljx
-5. Makefile - ljx
+- `malloc1.cpp`: 用linux的内核函数sbrk()代替malloc()，不支持free()操作
+- `malloc2.cpp`: 在malloc1.cpp的基础上增加链表，维护申请过的内存空间，支持free()操作
+- 改进`malloc2.cpp`: 增加realloc()函数 - **PS**
+- `base_test`: 测试malloc+realloc+free - **LJX**
+- `MemPool.cpp` + `example.cpp`: 增加内存池功能，用完可自动扩展+测试 - **LZY**
+- 改进`MemPool.cpp` + `multi_test.cpp`: 增加内存池的多线程安全+多线程测试 - **LJX**
+- `Makefile` - **LJX**
 
 ## 编译运行
+
 Linux下：
-- `make run_example`: 单线程测试
-- `make run_multi_test`: 多线程测试
+- `make base_test`: malloc + realloc + free 基础测试
+- `make run_example`: 内存池测试（单线程）
+- `make run_multi_test`: 内存池测试（多线程）
 
 ## 运行结果
-- 单线程
+
+- malloc + realloc + free 基础测试
+
+![Base Test](./base_test.jpg)
+
+- 内存池测试（单线程）
 
 ![Single Thread](./single_thread.jpg)
 
-- 多线程
+- 内存池测试（多线程）
 
 ![Multiple Thread](./multi_thread.jpg)
 
