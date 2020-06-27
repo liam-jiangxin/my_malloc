@@ -16,4 +16,4 @@ struct block_meta {
 
 void *my_malloc(size_t size);
 void my_free(void *ptr);
-void *realloc(void *ptr, size_t size);
+void *my_realloc(void *ptr, size_t size);
