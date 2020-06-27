@@ -11,7 +11,7 @@ int main(){
    }
 
    printf("========Realloc 5*sizeof(int) to a========\n");
-   a = (int*)realloc(a,5*sizeof(int));
+   a = (int*)my_realloc(a,5*sizeof(int));
     for(int i=0;i<5;i++){
       a[i]=2*i;
       printf("a[%d]=%d\n",i,a[i]);

@@ -1,13 +1,14 @@
 # My malloc
-## 源文件
-- `malloc1.cpp`: 用linux的内核函数sbrk()代替malloc()，不支持free()操作
-- `malloc2.cpp`: 在malloc1.cpp的基础上增加链表，维护申请过的内存空间，支持free()操作
-- 改进`malloc2.cpp`: 增加realloc()函数 - **PS**
-- `base_test`: 测试malloc+realloc+free - **LJX**
-- `MemPool.cpp` + `example.cpp`: 增加内存池功能，用完可自动扩展+测试 - **LZY**
-- 改进`MemPool.cpp` + `multi_test.cpp`: 增加内存池的多线程安全+多线程测试 - **LJX**
-- `Makefile` - **LJX**
-
+## Logs
+- 创建`malloc1.cpp`: 用linux的内核函数sbrk()代替malloc()，不维护申请过的内存空间，不支持free()操作 - **LJX**
+- 创建`malloc2.cpp`: 在malloc1.cpp的基础上增加结点头信息，配合链表结构维护申请过的内存空间，支持free()操作（TODO: Split & Merge链表结点；增加realloc()）- **LJX**
+- 改进`malloc2.cpp`: 增加my_realloc()函数 - **PS**
+- 改进`malloc2.cpp`: 增加链表结点申请块split & merge功能 - **MZR**
+- 创建`base_test`: 测试malloc+realloc+free - **LJX**
+- 创建`MemPool.cpp` + 创建`example.cpp`: 增加内存池功能，预先分配一大块进行管理，用完可自动扩展 + 测试 - **LZY**
+- 改进`MemPool.cpp` + 创建`multi_test.cpp`: 增加内存池的空闲块合并与利用锁保证多线程安全 + 多线程测试 - **LJX**
+- 创建`Makefile` - **LJX**
+- 维护`README.md` - **LJX**
 ## 编译运行
 
 Linux下：
