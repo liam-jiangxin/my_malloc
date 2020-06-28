@@ -6,14 +6,13 @@
 
 #include "MemPool.h"  // 注释这行比较系统malloc与memory pool的性能
 
-#define ENABLE_SHOW // 开启ENABLE_SHOW输出内部信息 会极大的影响性能
+#define ENABLE_SHOW // 开启ENABLE_SHOW输出内部信息 会影响性能
 
 /* -------- 测试数据参数 -------- */
 #define MAX_MEM_SIZE (2 * GB)   // 内存池管理的每个内存块大小
 #define MEM_SIZE (0.3 * GB)     // 内存池管理的每个内存块大小
 #define DATA_N (50000)           // 数据条数
 #define DATA_MAX_SIZE (16 * KB)  // 每条数据最大尺寸
-#define MAX_N (3)               // 总测试次数
 /* -------- 测试数据参数 -------- */
 
 #ifdef MYMALLOC
@@ -142,7 +141,7 @@ int main() {
     double total_time;
     start = clock();
 
-#ifndef MYMALLOC  // 区分系统malloc和内存池实现
+#ifndef MYMALLOC  // 比较系统malloc和内存池的性能
     printf("System malloc:\n");
 #else
     printf("Memory Pool:\n");

@@ -25,7 +25,7 @@ void MP_INIT_MEMORY_STRUCT(_MP_Memory *mm, mem_size_t sz){
         mm->alloc_list = NULL;   
 }
 
-// Fix Bug: 直接定义成函数会造成多线程死锁
+// 把x插到head之前
 void MP_DLINKLIST_INS_FRT(_MP_Chunk * &head, _MP_Chunk * &x){
         x->prev = NULL;
         x->next = head;
@@ -33,15 +33,8 @@ void MP_DLINKLIST_INS_FRT(_MP_Chunk * &head, _MP_Chunk * &x){
         head = x;
 }
 
-// 把x插到head之前
-// #define MP_DLINKLIST_INS_FRT(head, x) \
-//         x->prev = NULL;               \
-//         x->next = head;               \
-//         if (head) head->prev = x;     \
-//         head = x;                     \
 
-
-// Fix Bug: 直接定义成函数会造成多线程死锁
+//删除节点x
 void MP_DLINKLIST_DEL (_MP_Chunk * &head, _MP_Chunk * &x){
             if (!x->prev) {
         head = x->next;
@@ -51,16 +44,6 @@ void MP_DLINKLIST_DEL (_MP_Chunk * &head, _MP_Chunk * &x){
         if (x->next) x->next->prev = x->prev;
     }
 }
-
-//删除节点x
-// #define MP_DLINKLIST_DEL(head, x)                 \
-//         if (!x->prev) {                           \
-//             head = x->next;                       \
-//             if (x->next) x->next->prev = NULL;    \
-//         } else {                                  \
-//             x->prev->next = x->next;              \
-//             if (x->next) x->next->prev = x->prev; \
-//         }                                         \
 
 
 //功能：得到MemoryPool的pool的数量

@@ -8,7 +8,6 @@ struct block_meta {
   size_t size;
   struct block_meta *next;
   int free;
-  int magic; // debug
 };
 
 #define META_SIZE sizeof(struct block_meta)

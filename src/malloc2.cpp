@@ -2,7 +2,7 @@
 void *global_base = NULL;
 
 struct block_meta *find_free_block(struct block_meta **last, size_t size) 
-{ // TODO: optimize the finding strategy
+{ 
   struct block_meta *current = (block_meta *)global_base;
   while (current && !(current->free && current->size >= size)) 
   {
@@ -30,7 +30,6 @@ struct block_meta *request_space(struct block_meta* last, size_t size)
   block->next = NULL;
   block->size = size;
   block->free = 0;
-  block->magic = 0x12345678;
 
   return block;
 }
@@ -67,7 +66,6 @@ void *my_malloc(size_t size)
     } 
     else 
     { // Found free block
-      // TODO: consider splitting block here.
       struct block_meta * next_block = block -> next;
       if((block->size-size)>META_SIZE)
       {
@@ -76,12 +74,10 @@ void *my_malloc(size_t size)
         next_block -> free = 1;
         next_block -> next = block -> next;
         next_block -> size = (block -> size) - size - META_SIZE;
-        next_block -> magic = 0x12345678;
       }
       block->size = size;
       block->next = next_block;
       block->free = 0;
-      block->magic = 0x55555555;
     }
   }
 
@@ -98,12 +94,11 @@ void my_free(void *ptr) {
     return;
   }
 
-  // TODO: consider merging blocks once splitting blocks is implemented.
+  
   struct block_meta* block_ptr = get_block_ptr(ptr);
   struct block_meta* next_ptr = block_ptr->next;
 
   assert(block_ptr->free == 0);
-  assert(block_ptr->magic == 0x77777777 || block_ptr->magic == 0x12345678);
 
   /*MERGE*/
   int add_size = 0;
@@ -114,7 +109,6 @@ void my_free(void *ptr) {
   block_ptr->free = 1;
   block_ptr->next = next_ptr;
   block_ptr->size = block_ptr->size + add_size;
-  block_ptr->magic = 0x55555555;
 }
 
 void *my_realloc(void *ptr, size_t size) {
@@ -134,7 +128,7 @@ void *my_realloc(void *ptr, size_t size) {
   void *new_ptr;
   new_ptr = my_malloc(size);
   if (!new_ptr) {
-    return NULL; // TODO: set errno on failure.
+    return NULL; 
   }
   memcpy(new_ptr, ptr, block_ptr->size);
   my_free(ptr);  
