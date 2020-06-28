@@ -14,14 +14,6 @@ void MP_unlock(MemoryPool * mp){
     pthread_mutex_unlock(&mp->lock);
 }
 #endif
-// #define MP_lock(lockobj)                    \
-//     do {                                    \
-//         pthread_mutex_lock(&lockobj->lock); \
-//     } while (0)
-// #define MP_unlock(lockobj)                    \
-//     do {                                      \
-//         pthread_mutex_unlock(&lockobj->lock); \
-//     } while (0)
 
 //对齐，使_n变成sizeof(int)的倍数
 #define MP_ALIGN_SIZE(_n) (_n + sizeof(int) - ((sizeof(int) - 1) & _n))
@@ -39,18 +31,6 @@ void MP_INIT_MEMORY_STRUCT(_MP_Memory *mm, mem_size_t sz){
         mm->alloc_list = NULL;
 }
 
-// #define MP_INIT_MEMORY_STRUCT(mm, mem_sz)       \
-//     do {                                        \
-//         mm->pool_size = mem_sz;             \
-//         mm->alloced_mem = 0;                      \
-//         mm->alloc_prog_mem = 0;                 \
-//         mm->free_list = (_MP_Chunk*) mm->start; \
-//         mm->free_list->is_free = 1;             \
-//         mm->free_list->alloced_mem = mem_sz;      \
-//         mm->free_list->prev = NULL;             \
-//         mm->free_list->next = NULL;             \
-//         mm->alloc_list = NULL;                  \
-//     } while (0)
 
 //把x插到head之前
 void MP_DLINKLIST_INS_FRT(_MP_Chunk *head, _MP_Chunk *x){
@@ -60,13 +40,6 @@ void MP_DLINKLIST_INS_FRT(_MP_Chunk *head, _MP_Chunk *x){
     head = x;
 }
 
-// #define MP_DLINKLIST_INS_FRT(head, x) \
-//     do {                              \
-//         x->prev = NULL;               \
-//         x->next = head;               \
-//         if (head) head->prev = x;     \
-//         head = x;                     \
-//     } while (0)
 
 //删除节点x
 void MP_DLINKLIST_DEL (_MP_Chunk *head, _MP_Chunk *x){
@@ -78,17 +51,6 @@ void MP_DLINKLIST_DEL (_MP_Chunk *head, _MP_Chunk *x){
         if (x->next) x->next->prev = x->prev;
     }
 }
-
-// #define MP_DLINKLIST_DEL(head, x)                 \
-//     do {                                          \
-//         if (!x->prev) {                           \
-//             head = x->next;                       \
-//             if (x->next) x->next->prev = NULL;    \
-//         } else {                                  \
-//             x->prev->next = x->next;              \
-//             if (x->next) x->next->prev = x->prev; \
-//         }                                         \
-//     } while (0)
 
 
 //功能：得到MemoryPool的pool的数量
@@ -143,7 +105,7 @@ int get_memory_id(_MP_Memory* mm) {
 }
 
 //功能：申请一个pool
-static _MP_Memory* extend_memory_list(MemoryPool* mp, mem_size_t new_mem_sz) {
+_MP_Memory* extend_memory_list(MemoryPool* mp, mem_size_t new_mem_sz) {
     //这里注意，要加一个pool的描述结构体的大小
     char* s = (char*) malloc(sizeof(_MP_Memory) + new_mem_sz * sizeof(char));
     if (!s) return NULL;
@@ -177,7 +139,7 @@ static _MP_Memory* find_memory_list(MemoryPool* mp, void* p) {
 }
 
 //功能：free一个Chunk,并和前后合并
-static int merge_free_chunk(MemoryPool* mp, _MP_Memory* mm, _MP_Chunk* c) {
+int merge_free_chunk(MemoryPool* mp, _MP_Memory* mm, _MP_Chunk* c) {
     //c的位置是chunk组织方式的指针的位置
     _MP_Chunk *p0 = c, *p1 = c;
     //找到c的最前方的free块
