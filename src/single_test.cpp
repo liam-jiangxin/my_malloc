@@ -9,9 +9,6 @@ mem_size_t mem_pool_size = 16*MB;
 int main() {
     MemoryPool* mp = MemoryPoolInit(max_mem, mem_pool_size);
 
-    // struct TAT* tat = (struct TAT*) MemoryPoolAlloc(mp, sizeof(struct TAT));
-    // tat->T_T = 2333;
-    // cout<<(tat->T_T)<<endl;
     int sz = sizeof(int)*128*KB;
 
     int *a = (int*) MemoryPoolAlloc(mp,sz);
